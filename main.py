@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 app = FastAPI(title="TokenMetrics API")
 
+# Enable CORS for Streamlit Cloud requests
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,24 +16,21 @@ app.add_middleware(
 
 @app.get("/api/v1/metrics/summary")
 def get_metrics_summary():
-    # Dynamic KPI aggregates
     total_tokens = random.randint(1_100_000, 1_500_000)
     total_cost = round(total_tokens * 0.000012 + random.uniform(1.0, 3.0), 2)
     avg_latency = random.randint(95, 145)
     
-    # 24-hour time-series data for line chart
     now = datetime.now()
-    hourly_trends = []
-    for i in range(24):
-        timestamp = (now - timedelta(hours=23 - i)).strftime("%H:00")
-        hourly_trends.append({
-            "time": timestamp,
+    hourly_trends = [
+        {
+            "time": (now - timedelta(hours=23 - i)).strftime("%H:00"),
             "tokens": random.randint(30_000, 85_000),
             "cost": round(random.uniform(0.4, 1.2), 2),
             "latency": random.randint(80, 180)
-        })
+        }
+        for i in range(24)
+    ]
 
-    # Model usage distribution for pie/donut chart
     model_breakdown = [
         {"model": "GPT-4o", "usage_pct": 45, "cost": round(total_cost * 0.55, 2)},
         {"model": "Claude 3.5 Sonnet", "usage_pct": 30, "cost": round(total_cost * 0.30, 2)},
