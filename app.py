@@ -7,7 +7,7 @@ st.title("⚡ TokenMetrics Analytics Engine")
 st.caption("Real-time monitoring of LLM usage costs and system latency.")
 
 # Define backend API URL
-API_URL = "https://tokenmetrics-api.onrender.com/api/v1/metrics/summary"
+API_URL = "https://tokenmetricsdb.onrender.com/api/v1/metrics/summary"
 
 try:
     response = requests.get(API_URL, timeout=5)
