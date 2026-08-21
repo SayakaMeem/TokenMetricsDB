@@ -13,6 +13,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+def read_root():
+    return {"message": "TokenMetricsDB API is running successfully!"}
 
 @app.get("/api/v1/metrics/summary")
 def get_metrics_summary():
